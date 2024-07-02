@@ -78,6 +78,17 @@ func (c *CSVData) Write(w io.Writer) error {
 	wt := csv.NewWriter(w)
 	defer wt.Flush()
 
+	if c.cfg.writeHeader {
+		headers := make([]string, len(c.cfg.cols))
+		for _, c := range c.cfg.cols {
+			headers[c.index] = c.Key
+		}
+
+		if err := wt.Write(headers); err != nil {
+			return err
+		}
+	}
+
 	for _, row := range c.rows {
 		data := make([]string, len(c.cfg.cols))
 		for _, c := range c.cfg.cols {

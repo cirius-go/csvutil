@@ -6,6 +6,7 @@ type Config struct {
 	defaultValues map[string]any
 	silent        bool
 	hooks         []func(*CSVCol, any) any
+	writeHeader   bool
 
 	// calculate info.
 }
@@ -25,6 +26,12 @@ func (c *Config) SetCols(cols ...*CSVCol) *Config {
 	}
 
 	return c
+}
+
+// WriteHeader writes the header of the CSV file.
+func (c *Config) WriteHeader(w bool) error {
+	c.writeHeader = w
+	return nil
 }
 
 // ApplyHook applies a hook to a column.
